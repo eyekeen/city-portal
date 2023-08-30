@@ -1,0 +1,5 @@
+1. split html into components
+2. start links with '/{some-link}'
+3. better always have default value for table columns
+4. good practic be add created_at and updated_at
+5. set for primary and foreign keys same type

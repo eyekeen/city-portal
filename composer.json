@@ -1,0 +1,6 @@
+{
+    "name": "tarum2/wayup-city-portal",
+    "require": {
+        "larapack/dd": "^1.1"
+    }
+}
