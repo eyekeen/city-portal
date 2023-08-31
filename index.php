@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+?>
+
 <!doctype html>
 <html lang="ru">
 
@@ -25,25 +31,25 @@ require_once __DIR__ . '/db/db.php';
     <section class="main">
         <div class="container">
             <div class="row">
-                <h2 class="display-6 mb-3">Заявки</h2>
+                <h2 class="display-6 mb-3">Заявки <?= isset($_SESSION['user']) ?? $_SESSION['user']  ?></h2>
             </div>
             <div class="row">
-                <div class="card mb-3">
-                    <img src="src/static/image-2.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Отремонтировать асфальт <span class="badge bg-warning text-dark">В процессе</span> </h5>
-                        <p class="card-text">Возле дороги на улице Ейдемана рядом с Политическим колледжем образовалась опасная яма.</p>
-                        <p class="card-text"><small class="text-muted">Добавлено: 24.12.2021</small></p>
+                <?php
+                // $query = $db->prepare("SELECT * FROM tickets JOIN tickect_tags ON tickect_tags.id = tickets.tag_id WHERE user_id = :user_id"); second way
+
+                $tickets = $db->query("SELECT ts.*, tgs.label, tgs.background , tgs.color FROM tickets ts JOIN ticket_tags tgs ON tgs.id = ts.tag_id")->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($tickets as $ticket) {
+                ?>
+                    <div class="card mb-3">
+                        <img src="<?= $ticket['image'] ?>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $ticket['title'] ?><span class="badge" style="margin-left: 5px; background: <?= $ticket['background'] ?>; color: <?= $ticket['color'] ?>"><?= $ticket['label'] ?></span> </h5>
+                            <p class="card-text"><?= $ticket['title'] ?></p>
+                            <p class="card-text"><small class="text-muted">Добавлено: <?= $ticket['created_at']  ?></small></p>
+                        </div>
                     </div>
-                </div>
-                <div class="card mb-3">
-                    <img src="src/static/image-1.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Убрать мусор <span class="badge bg-success">Выполнено</span> </h5>
-                        <p class="card-text">В нашем районе стали складировать много мусора, никто не убирает..</p>
-                        <p class="card-text"><small class="text-muted">Добавлено: 24.12.2021</small></p>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </section>

@@ -3,3 +3,9 @@
 3. better always have default value for table columns
 4. good practic be add created_at and updated_at
 5. set for primary and foreign keys same type
+6. recomend assign request params(get, post) in var
+7. any action operation(login, register, logout e.t.) need execute through post request
+8. images need storing in external storage
+
+------
+1. Why unset + session_destroy insteat of session_destroy?
