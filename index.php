@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-
+// TODO: need add ticket count in header dropdown menu
 ?>
 
 <!doctype html>
@@ -35,9 +35,24 @@ require_once __DIR__ . '/db/db.php';
             </div>
             <div class="row">
                 <?php
-                // $query = $db->prepare("SELECT * FROM tickets JOIN tickect_tags ON tickect_tags.id = tickets.tag_id WHERE user_id = :user_id"); second way
 
-                $tickets = $db->query("SELECT ts.*, tgs.label, tgs.background , tgs.color FROM tickets ts JOIN ticket_tags tgs ON tgs.id = ts.tag_id")->fetchAll(PDO::FETCH_ASSOC);
+                if (isset($_GET['q'])) {
+                    $q = $db->prepare("SELECT ts.*, tgs.label, tgs.background , tgs.color FROM tickets ts JOIN ticket_tags tgs ON tgs.id = ts.tag_id WHERE ts.title LIKE :q ORDER BY ts.id DESC");
+                    $q->execute(['q' => "%{$_GET['q']}%"]);
+
+                    $tickets = $q->fetchAll(PDO::FETCH_ASSOC);
+                } else {
+                    $tickets = $db->query("SELECT ts.*, tgs.label, tgs.background , tgs.color FROM tickets ts JOIN ticket_tags tgs ON tgs.id = ts.tag_id ORDER BY ts.id DESC")->fetchAll(PDO::FETCH_ASSOC);
+                }
+
+                if (empty($tickets)) {
+                ?>
+                    <div class="alert alert-warning" role="alert">
+                        Tickets not found
+                    </div>
+                <?php
+
+                }
 
                 foreach ($tickets as $ticket) {
                 ?>

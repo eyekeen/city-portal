@@ -48,12 +48,10 @@ if (!isset($_SESSION['user'])) {
                     <tbody>
                         <?php
 
-
-
                         $tags = $db->query("SELECT * FROM ticket_tags")->fetchAll(PDO::FETCH_ASSOC);
 
                         // $query = $db->prepare("SELECT * FROM tickets JOIN tickect_tags ON tickect_tags.id = tickets.tag_id WHERE user_id = :user_id"); second way
-                        $query = $db->prepare("SELECT * FROM tickets WHERE user_id = :user_id");
+                        $query = $db->prepare("SELECT * FROM tickets WHERE user_id = :user_id ORDER BY id DESC");
 
                         $query->execute([
                             'user_id' => $_SESSION['user'],

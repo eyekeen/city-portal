@@ -5,5 +5,15 @@
 <link rel="stylesheet" href="src/scss/app.css">
 
 <?php
-    require_once __DIR__ . '/../app/requires.php';
+require_once __DIR__ . '/../app/requires.php';
+
+$user = false;
+$config = require_once __DIR__ . '/../config/app.php';
+if (isset($_SESSION['user'])) {
+    $query = $db->prepare("SELECT * FROM users WHERE id = :id");
+    $query->execute([
+        'id' => $_SESSION['user'],
+    ]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+}
 ?>

@@ -7,5 +7,7 @@
 7. any action operation(login, register, logout e.t.) need execute through post request
 8. images need storing in external storage
 
+9. This structure may be use for simple sites!!!
+
 ------
 1. Why unset + session_destroy insteat of session_destroy?

@@ -30,7 +30,7 @@ session_start();
                 </div>
                 <?php
                 // TODO: fix that 
-                if ($_SESSION['fields']) {
+                if (isset($_SESSION['fields'])) {
 
                 ?>
                     <div class="alert alert-danger" role="alert">

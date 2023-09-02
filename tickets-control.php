@@ -1,10 +1,26 @@
+<?php
+
+session_start();
+
+?>
+
+
 <!doctype html>
 <html lang="ru">
 
 <head>
     <?php
 
+    // TODO: replace this to up
     require_once __DIR__ . '/components/head.php';
+
+    if (isset($_SESSION['user'])) {
+
+        if ((int)$user['group_id'] !== $config['admin_user_group']) {
+            header('Location: /');
+            die();
+        }
+    }
 
     ?>
     <title>Tickets control</title>
@@ -33,75 +49,74 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <img src="src/static/image-1.jpg" width="200" alt="">
-                            </td>
-                            <td>Убрать мусор</td>
-                            <td>В нашем районе стали складировать много мусора, никто не убирает..</td>
-                            <td>
-                                <span class="badge rounded-pill bg-success">Выполнено</span>
-                            </td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Действия
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="#">Выполнено</a></li>
-                                        <li><a class="dropdown-item" href="#">В процессе</a></li>
-                                        <li><a class="dropdown-item" href="#">Отклонить</a></li>
-                                        <li><a class="dropdown-item" href="#">Удалить</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="src/static/image-2.jpg" width="200" alt="">
-                            </td>
-                            <td>Отремонтировать асфальт</td>
-                            <td>Возле дороги на улице Ейдемана рядом с Политическим колледжем образовалась опасная яма.</td>
-                            <td>
-                                <span class="badge rounded-pill bg-warning">В процессе</span>
-                            </td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Действия
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="#">Выполнено</a></li>
-                                        <li><a class="dropdown-item" href="#">В процессе</a></li>
-                                        <li><a class="dropdown-item" href="#">Отклонить</a></li>
-                                        <li><a class="dropdown-item" href="#">Удалить</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="src/static/image-3.jpg" width="200" alt="">
-                            </td>
-                            <td>Замело снегом</td>
-                            <td>Весь двор в ЖК Пушкинский замело снегом, выезд и въезд затруднены</td>
-                            <td>
-                                <span class="badge rounded-pill bg-info">Создано</span>
-                            </td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Действия
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="#">Выполнено</a></li>
-                                        <li><a class="dropdown-item" href="#">В процессе</a></li>
-                                        <li><a class="dropdown-item" href="#">Отклонить</a></li>
-                                        <li><a class="dropdown-item" href="#">Удалить</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+                        <?php
+
+                        $tags = $db->query("SELECT * FROM ticket_tags")->fetchAll(PDO::FETCH_ASSOC);
+
+                        $tickets = $db->query("SELECT * FROM tickets ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+
+
+                        foreach ($tickets as $ticket) {
+
+                            $tagId = $ticket['tag_id'];
+                            $tag = array_filter($tags, function ($tag) use ($tagId) {
+                                return (int)$tag['id'] === (int)$tagId;
+                            });
+
+
+
+                            $tag = array_shift($tag);
+
+                        ?>
+                            <tr>
+                                <td>
+                                    <img src="<?= $ticket['image'] ?>" width="200" alt="">
+                                </td>
+                                <td><?= $ticket['title'] ?></td>
+                                <td><?= $ticket['description'] ?></td>
+                                <td>
+                                    <span class="badge rounded-pill" style="background: <?= $tag['background'] ?>;color: <?= $tag['color'] ?>">
+                                        <?= $tag['label'] ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Действия
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li>
+                                                <form action="/actions/tickets/change_tag.php" method="post">
+                                                    <input type="hidden" name="id" value="<?= $ticket['id']  ?>">
+                                                    <input type="hidden" name="tag" value="<?= $config['success_tickets_tag'] ?>">
+                                                    <button class="dropdown-item">Done</button>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <form action="/actions/tickets/change_tag.php" method="post">
+                                                    <input type="hidden" name="id" value="<?= $ticket['id']  ?>">
+                                                    <input type="hidden" name="tag" value="<?= $config['in_progress_tickets_tag'] ?>">
+                                                    <button class="dropdown-item">In progress</button>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <form action="/actions/tickets/change_tag.php" method="post">
+                                                    <input type="hidden" name="id" value="<?= $ticket['id']  ?>">
+                                                    <input type="hidden" name="tag" value="<?= $config['reject_tickets_tag'] ?>">
+                                                    <button class="dropdown-item">Reject</button>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <form action="/actions/tickets/delete.php" method="post">
+                                                    <input type="hidden" name="id" value="<?= $ticket['id']  ?>">
+                                                    <button class="dropdown-item">Delete</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>

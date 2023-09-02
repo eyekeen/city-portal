@@ -3,7 +3,7 @@
 session_start();
 
 require_once __DIR__ . '/../../app/requires.php';
-$config = require_once __DIR__ . '/../../config/app.php';
+$config = require __DIR__ . '/../../config/app.php';
 
 if(!isset($_SESSION['user'])){
     die("Auth error");
