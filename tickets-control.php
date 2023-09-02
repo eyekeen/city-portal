@@ -11,7 +11,6 @@ session_start();
 <head>
     <?php
 
-    // TODO: replace this to up
     require_once __DIR__ . '/components/head.php';
 
     if (isset($_SESSION['user'])) {
@@ -37,6 +36,15 @@ session_start();
             <div class="row">
                 <h2 class="display-6 mb-3">Управление заявками</h2>
             </div>
+            <?php
+
+            if (isset($_SESSION['delete_error'])) {
+
+            ?>
+                <div class="alert alert-danger" role="alert">
+                    <?= $_SESSION['delete_error'] ?>
+                </div>
+            <?php } ?>
             <div class="row">
                 <table class="table table-striped">
                     <thead>
@@ -70,7 +78,7 @@ session_start();
                         ?>
                             <tr>
                                 <td>
-                                    <img src="<?= $ticket['image'] ?>" width="200" alt="">
+                                    <img src="<?= $ticket['image'] ?>" width="200" alt="Image place">
                                 </td>
                                 <td><?= $ticket['title'] ?></td>
                                 <td><?= $ticket['description'] ?></td>
@@ -122,7 +130,10 @@ session_start();
             </div>
         </div>
     </section>
-    <?php require_once __DIR__ . '/components/scripts.php'; ?>
+    <?php
+    unset($_SESSION['delete_error']);
+    require_once __DIR__ . '/components/scripts.php';
+    ?>
 </body>
 
 </html>

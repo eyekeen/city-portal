@@ -2,7 +2,7 @@
 
 session_start();
 
-if(!isset($_SESSION['user'])){
+if (!isset($_SESSION['user'])) {
     header('Location: /login.php');
     die();
 }
@@ -33,26 +33,56 @@ if(!isset($_SESSION['user'])){
             <div class="row">
                 <h2 class="display-6 mb-3">Добавить заявку</h2>
             </div>
+            <?php
+
+            if (isset($_SESSION['fields'])) {
+
+            ?>
+                <div class="alert alert-danger" role="alert">
+                    Incorrect data!
+                </div>
+
+            <?php
+                $fileds = $_SESSION['fields'];
+            }
+
+            ?>
             <div class="row">
                 <form method="post" action="/actions/tickets/store.php" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="fullNameField" class="form-label">Тема заявки</label>
-                        <input type="text" name="title" class="form-control" id="fullNameField" aria-describedby="emailHelp">
+                        <input type="text" value="<?= $fileds['title']['value'] ?? ''  ?>" name="title" class="form-control <?= $fileds['title']['error'] ? 'is-invalid' : ''  ?>" id="fullNameField" aria-describedby="emailHelp">
+                        <div class="invalid-feedback">
+                            <?= $fileds['title']['msg'] ?>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="fullNameField" class="form-label">Изображение</label>
-                        <input type="file" name="image" class="form-control" id="fullNameField" aria-describedby="emailHelp">
+                        <input type="file" name="image" accept="image/jpeg, image/png" class="form-control <?= $fileds['image']['error'] ? 'is-invalid' : ''  ?>" id="fullNameField" aria-describedby="emailHelp">
+                        <div class="invalid-feedback">
+                            <?= $fileds['image']['msg'] ?>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="dobField" class="form-label">Описание</label>
-                        <textarea type="datetime-local" name="description" class="form-control" id="dobField" aria-describedby="emailHelp"></textarea>
+                        <textarea name="description" class="form-control <?= $fileds['description']['error'] ? 'is-invalid' : ''  ?>" id="dobField">
+                            <?= $fileds['description']['value'] ?? ''  ?>
+                        </textarea>
+                        <div class="invalid-feedback">
+                            <?= $fileds['description']['msg'] ?>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Добавить заявку</button>
                 </form>
             </div>
         </div>
     </section>
-    <?php require_once __DIR__ . '/components/scripts.php'; ?>
+    <?php 
+    
+    unset($_SESSION['fields']);
+    require_once __DIR__ . '/components/scripts.php'; 
+    
+    ?>
 </body>
 
 </html>

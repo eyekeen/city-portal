@@ -17,10 +17,25 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/add-ticket.php">Добавить</a></li>
-                                <li><a class="dropdown-item" href="/my-tickets.php">Мои заявки <span class="badge bg-secondary">4</span></a></li>
+                                <li><a class="dropdown-item" href="/my-tickets.php">Мои заявки
+                                        <span class="badge bg-secondary">
+                                            <?php 
+                                            
+                                            $q = $db->prepare("SELECT COUNT(id) as tcount FROM tickets WHERE user_id = :user_id");
+                                            $q->execute([
+                                                'user_id' => $user['id']
+                                            ]);
+                                            
+                                            echo $q->fetch(PDO::FETCH_ASSOC)['tcount'];
+                                            
+                                            ?>
+                                        </span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-                    <?php } if (isset($user) && (int)$user['group_id'] === $config['admin_user_group']) { ?>
+                    <?php }
+                    if (isset($user) && (int)$user['group_id'] === $config['admin_user_group']) { ?>
                         <li class="nav-item">
                             <a href="/tickets-control.php" class="nav-link">Управление заявками</a>
                         </li>

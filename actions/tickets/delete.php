@@ -12,7 +12,7 @@ if (!isset($_SESSION['user'])) {
 
 $id = $_POST['id'];
 
-// TODO: validation
+
 
 $query = $db->prepare("SELECT user_id FROM tickets WHERE id = :id");
 $query->execute(['id' => $id]);
@@ -24,8 +24,19 @@ $query->execute([
 ]);
 $user = $query->fetch(PDO::FETCH_ASSOC);
 
-if ($ticket['user_id'] !== $_SESSION['user'] || (int)$user['group_id'] !== $config['admin_user_group'] ) {
+if ($ticket['user_id'] !== $_SESSION['user'] && (int)$user['group_id'] !== $config['admin_user_group']) {
     die("This is not your post");
+}
+
+if (!ctype_digit($id)) {
+    $_SESSION['delete_error'] = 'Id must be a number';
+    if ((int)$user['group_id'] === $config['admin_user_group']) {
+        header('Location: /tickets-control.php');
+        die();
+    } elseif ((int)$user['group_id'] === $config['default_user_group']) {
+        header('Location: /my-tickets.php');
+        die();
+    }
 }
 
 
@@ -34,9 +45,13 @@ try {
     $query->execute([
         'id' => $id
     ]);
-    // TODO: fix that moment with redirect for admin and citizen
-    header('Location: /my-tickets.php');
-    die();
+    if ((int)$user['group_id'] === $config['admin_user_group']) {
+        header('Location: /tickets-control.php');
+        die();
+    } elseif ((int)$user['group_id'] === $config['default_user_group']) {
+        header('Location: /my-tickets.php');
+        die();
+    }
 } catch (\PDOException $th) {
     echo $th->getMessage();
 }

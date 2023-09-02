@@ -7,7 +7,6 @@ require_once __DIR__ . '/../../app/requires.php';
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-// TODO: validation same register and return value(email)
 
 $query = $db->prepare("SELECT * FROM users WHERE email = :email");
 

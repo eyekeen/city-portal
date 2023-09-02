@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../app/requires.php';
 
 $config = require __DIR__ . '/../../config/app.php';
 
-// TODO: only admin have access to update
+
 if (!isset($_SESSION['user'])) {
     die("You are not admin!");
 }

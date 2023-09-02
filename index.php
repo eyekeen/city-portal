@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-// TODO: need add ticket count in header dropdown menu
+
 ?>
 
 <!doctype html>

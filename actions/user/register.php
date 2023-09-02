@@ -1,5 +1,5 @@
 <?php
-// TODO: need modernization
+
 session_start();
 
 require_once __DIR__ . '/../../app/requires.php';
@@ -17,17 +17,21 @@ $error = false;
 $fields = [
     'email' => [
         'value' => $email,
+        'msg' => '',
         'error' => false,
     ],
     'name' => [
         'value' => $name,
+        'msg' => '',
         'error' => false,
     ],
     'dob' => [
         'value' => $dob,
+        'msg' => '',
         'error' => false,
     ],
     'password' => [
+        'msg' => '',
         'error' => false,
     ]
 ];
@@ -36,23 +40,36 @@ $fields = [
 if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $error = true;
     $fields['email']['error'] = true;
+    $fields['email']['msg'] = "Incorrect or empty email";
 }
 
 
 if (empty($name)) {
     $error = true;
     $fields['name']['error'] = true;
+    $fields['name']['msg'] = "Name cannot be empty";
 }
 
-if (empty($name)) {
+if (empty($dob)) {
     $error = true;
     $fields['dob']['error'] = true;
+    $fields['dob']['msg'] = "DOB cannot be empty";
+}
+
+if(strlen($password) < 6 ){
+    $error = true;
+    $fields['password']['error'] = true;
+    $fields['password']['msg'] = "Password min length must be 6 character";
 }
 
 if ($password !== $passwordConfirmation) {
     $error = true;
     $fields['password']['error'] = true;
+    $fields['password']['msg'] = "Password mismatch";
+
 }
+
+
 
 if ($error) {
     $_SESSION['fields'] = $fields;
