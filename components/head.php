@@ -12,7 +12,7 @@ $config = require_once __DIR__ . '/../config/app.php';
 if (isset($_SESSION['user'])) {
     $query = $db->prepare("SELECT * FROM users WHERE id = :id");
     $query->execute([
-        'id' => $_SESSION['user'],
+        'id' => $_SESSION['user']['id'],
     ]);
     $user = $query->fetch(PDO::FETCH_ASSOC);
 }

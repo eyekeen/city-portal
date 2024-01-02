@@ -28,6 +28,8 @@ if (!password_verify($password, $user['password'])) {
     die();
 }
 
-$_SESSION['user'] = $user['id'];
+$_SESSION['user'] = [];
+$_SESSION['user']['id'] = $user['id'];
+$_SESSION['user']['name'] = $user['name'];
 
 header('Location: /');

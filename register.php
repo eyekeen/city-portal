@@ -60,10 +60,7 @@ session_start();
                         </div>
                         <div class="mb-3">
                             <label for="dobField" class="form-label">Дата рождения</label>
-                            <input value="<?= $fileds['dob']['value'] ?? ''  ?>" type="date" name="dob" class="form-control <?= $fileds['dob']['error'] ? 'is-invalid' : ''  ?>" id="dobField" aria-describedby="emailHelp" >
-                            <div class="invalid-feedback">
-                                <?= $fileds['dob']['msg'] ?>
-                            </div>
+                            <input type="date" name="dob" class="form-control" id="dobField" aria-describedby="emailHelp" >
                         </div>
                         <div class="mb-3">
                             <label for="passwordRegisterField" class="form-label">Пароль</label>

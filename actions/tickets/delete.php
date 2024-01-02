@@ -20,11 +20,11 @@ $ticket = $query->fetch(PDO::FETCH_ASSOC);
 
 $query = $db->prepare("SELECT * FROM users WHERE id = :id");
 $query->execute([
-    'id' => $_SESSION['user'],
+    'id' => $_SESSION['user']['id'],
 ]);
 $user = $query->fetch(PDO::FETCH_ASSOC);
 
-if ($ticket['user_id'] !== $_SESSION['user'] && (int)$user['group_id'] !== $config['admin_user_group']) {
+if ($ticket['user_id'] !== $_SESSION['user']['id'] && (int)$user['group_id'] !== $config['admin_user_group']) {
     die("This is not your post");
 }
 

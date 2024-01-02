@@ -87,7 +87,7 @@ try {
         'description' => $description,
         'image' => "/uploads/$filename",
         'tag_id' => $config['default_tickets_tag'],
-        'user_id' => $_SESSION['user'],
+        'user_id' => $_SESSION['user']['id'],
     ]);
     header('Location: /my-tickets.php');
     die();

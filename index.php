@@ -2,6 +2,7 @@
 
 session_start();
 
+
 ?>
 
 <!doctype html>
@@ -13,7 +14,7 @@ session_start();
     require_once __DIR__ . '/components/head.php';
 
     ?>
-    <title>Home</title>
+    <title>Главная</title>
 </head>
 
 <?php
@@ -31,7 +32,7 @@ require_once __DIR__ . '/db/db.php';
     <section class="main">
         <div class="container">
             <div class="row">
-                <h2 class="display-6 mb-3">Заявки <?= isset($_SESSION['user']) ?? $_SESSION['user']  ?></h2>
+                <h2 class="display-6 mb-3">Заявки <?= isset($_SESSION['user']) ?? $_SESSION['user']['name']  ?></h2>
             </div>
             <div class="row">
                 <?php
@@ -48,7 +49,7 @@ require_once __DIR__ . '/db/db.php';
                 if (empty($tickets)) {
                 ?>
                     <div class="alert alert-warning" role="alert">
-                        Tickets not found
+                        Заявки не найдены
                     </div>
                 <?php
 

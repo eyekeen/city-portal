@@ -4,7 +4,7 @@ return [
     'driver' => 'mysql',
     'host' => 'localhost',
     'dbname' => 'city-portal',
-    'user' => 'tarum',
-    'password' => 'root123',
+    'user' => 'root',
+    'password' => '',
     'port' => '3306'
 ];

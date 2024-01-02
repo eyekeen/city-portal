@@ -25,11 +25,6 @@ $fields = [
         'msg' => '',
         'error' => false,
     ],
-    'dob' => [
-        'value' => $dob,
-        'msg' => '',
-        'error' => false,
-    ],
     'password' => [
         'msg' => '',
         'error' => false,
@@ -50,11 +45,6 @@ if (empty($name)) {
     $fields['name']['msg'] = "Name cannot be empty";
 }
 
-if (empty($dob)) {
-    $error = true;
-    $fields['dob']['error'] = true;
-    $fields['dob']['msg'] = "DOB cannot be empty";
-}
 
 if(strlen($password) < 6 ){
     $error = true;

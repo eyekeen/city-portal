@@ -63,7 +63,7 @@ if (!isset($_SESSION['user'])) {
                         $query = $db->prepare("SELECT * FROM tickets WHERE user_id = :user_id ORDER BY id DESC");
 
                         $query->execute([
-                            'user_id' => $_SESSION['user'],
+                            'user_id' => $_SESSION['user']['id'],
                         ]);
 
                         $tickets = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -101,7 +101,7 @@ if (!isset($_SESSION['user'])) {
                                             <li>
                                                 <form action="/actions/tickets/delete.php" method="post">
                                                     <input type="hidden" name="id" value="<?= $ticket['id'] ?>">
-                                                    <button class="dropdown-item">Delete</button>
+                                                    <button class="dropdown-item">Удалить</button>
                                                 </form>
                                             </li>
                                         </ul>

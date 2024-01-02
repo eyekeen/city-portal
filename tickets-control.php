@@ -97,27 +97,27 @@ session_start();
                                                 <form action="/actions/tickets/change_tag.php" method="post">
                                                     <input type="hidden" name="id" value="<?= $ticket['id']  ?>">
                                                     <input type="hidden" name="tag" value="<?= $config['success_tickets_tag'] ?>">
-                                                    <button class="dropdown-item">Done</button>
+                                                    <button class="dropdown-item">Завершено</button>
                                                 </form>
                                             </li>
                                             <li>
                                                 <form action="/actions/tickets/change_tag.php" method="post">
                                                     <input type="hidden" name="id" value="<?= $ticket['id']  ?>">
                                                     <input type="hidden" name="tag" value="<?= $config['in_progress_tickets_tag'] ?>">
-                                                    <button class="dropdown-item">In progress</button>
+                                                    <button class="dropdown-item">В процессе</button>
                                                 </form>
                                             </li>
                                             <li>
                                                 <form action="/actions/tickets/change_tag.php" method="post">
                                                     <input type="hidden" name="id" value="<?= $ticket['id']  ?>">
                                                     <input type="hidden" name="tag" value="<?= $config['reject_tickets_tag'] ?>">
-                                                    <button class="dropdown-item">Reject</button>
+                                                    <button class="dropdown-item">Отклонено</button>
                                                 </form>
                                             </li>
                                             <li>
                                                 <form action="/actions/tickets/delete.php" method="post">
                                                     <input type="hidden" name="id" value="<?= $ticket['id']  ?>">
-                                                    <button class="dropdown-item">Delete</button>
+                                                    <button class="dropdown-item">Удалить</button>
                                                 </form>
                                             </li>
                                         </ul>
