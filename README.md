@@ -1,7 +1,7 @@
 # Городской портал / City Portal
 Городской портал - это веб-сайт, который служит для общения между жителями города и городской администрацией. На этом портале люди могут оставлять заявки на решение различных проблем, которые они сталкивают в своем районе или городе в целом. Этот портал также предлагает панель администратора для управления заявками и эффективного решения проблем.
-![ticket 1](https://fikiwiki.com/uploads/posts/2022-02/1644938153_7-fikiwiki-com-p-kartinki-yami-na-dorogakh-8.jpg)
-*A single track trail outside of Albuquerque, New Mexico.*
+![ticket 1](/src/static/example1.png)
+*Главная страница со списком всех заявок*
 ![ticket 2](https://fikiwiki.com/uploads/posts/2022-02/1644938153_7-fikiwiki-com-p-kartinki-yami-na-dorogakh-8.jpg)
 *A single track trail outside of Albuquerque, New Mexico.*
 ## Основные функции городского портала:
